@@ -1,0 +1,133 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+<title></title>
+<style type="text/css"><!--
+header, footer, article, section, nav, menu, hgroup { display: block; }
+* { padding: 0; margin: 0; vertical-align: baseline; }
+body {
+	padding: 100px;
+}
+ul {
+	width: 420px;
+	list-style-type: none;
+}
+li {
+	float: left;
+	width: 56px;
+	height: 56px;
+	background: red;
+	margin: 4px;
+	opacity: 0;
+	font-size: 11px;
+}​
+--></style>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+<script type="text/javascript" src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
+<script type="text/javascript">
+$(function() {
+
+	window.lists = [];	
+	var mouse = { x: 0, y: 0 };
+	var lis = _.shuffle($('li'));
+	//var lis = $('li');
+
+	$.each(lis, function(index, el) {
+		$(el).delay(index * 80).animate({ 'opacity': 1.0 }, { duration: 400 });
+	});
+
+
+	var list_item = function(x, y, el) {
+		this.x = x || 0;
+		this.y = y || 0;
+		this.el = el || 0;
+	}
+		
+	
+	
+	
+	function init() {
+	
+		// loop through lists add to array :?
+		$.each(lis, function(indx, el){
+			var $el = $(el);
+			lists[indx] = new list_item( $el.offset().left+24, $el.offset().top+24, $el );
+		});
+		
+		
+		loop();
+	}
+
+
+
+	function loop() {		
+		
+		var p = 0, mx = 0, my = 0, dx = 0, dy = 0, dSq = 0, d = 0, f = 0;
+		
+		mx = mouse.x;
+		my = mouse.y;
+		
+		for(var i = 0, l = lists.length; i < l; i++) {
+			p = lists[i];
+			
+			dx = mx - p.x;
+			dy = my - p.y;
+			dSq = dx*dx + dy*dy;
+			d = Math.sqrt(dSq)
+			d = (d + .5) | 0;
+			//d = d > 100 ? 100 : d;
+			
+			//p.el.css('opacity', d / 100);
+			
+			
+			p.el.html( /* p.x +'x'+p.y+'<br>'+				mx+'x'+my+'<br>'+			dx+'-'+dy+'<br>'+ */		d );
+		}
+		
+		// 375 x 250
+		
+		setTimeout(loop, 1000 / 60);
+	}	
+	
+		
+	$(window).mousemove(function(ev) {
+		mouse.x = ev.pageX;/*  + $(this).offset().left; */
+		mouse.y = ev.pageY;/*  + $(this).offset().top; */
+	});
+	
+	init();
+	
+	
+});
+</script>
+
+
+
+</head>
+<body>
+
+<ul>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+</ul>
+
+</body>
+</html>
